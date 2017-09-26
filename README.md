@@ -63,9 +63,13 @@ $apiKey = "apiKey_example"; // string | API Secret - Can be found in your settin
 $message = "message_example"; // string | Text of the message. 320 chars max.
 $to = "to_example"; // string | Number to send the SMS. Better to use 9471XXXXXXX format.
 $senderId = "senderId_example"; // string | This is the from name recipient will see as the sender of the SMS. Use \"NotifyDemo\" if you have not ordered your own sender ID yet.
+$contact_fname = "contact_fname_example"; // string | Contact First Name - This will be used while saving the phone number in your Notify contacts.
+$contact_lname = "contact_lname_example"; // string | Contact Last Name - This will be used while saving the phone number in your Notify contacts.
+$contact_email = "contact_email_example"; // string | Contact Email Address - This will be used while saving the phone number in your Notify contacts.
+$contact_address = "contact_address_example"; // string | Contact Physical Address - This will be used while saving the phone number in your Notify contacts.
 
 try {
-    $api_instance->sendSMS($userId, $apiKey, $message, $to, $senderId);
+    $api_instance->sendSMS($userId, $apiKey, $message, $to, $senderId, $contact_fname, $contact_lname, $contact_email, $contact_address);
 } catch (Exception $e) {
     echo 'Exception when calling SmsApi->sendSMS: ', $e->getMessage(), PHP_EOL;
 }

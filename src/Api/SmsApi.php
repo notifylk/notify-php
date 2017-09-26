@@ -111,12 +111,16 @@ class SmsApi
      * @param string $message Text of the message. 320 chars max. (required)
      * @param string $to Number to send the SMS. Better to use 9471XXXXXXX format. (required)
      * @param string $senderId This is the from name recipient will see as the sender of the SMS. Use \&quot;NotifyDemo\&quot; if you have not ordered your own sender ID yet. (required)
+     * @param string $contact_fname Contact First Name - This will be used while saving the phone number in your Notify contacts. (optional)
+     * @param string $contact_lname Contact Last Name - This will be used while saving the phone number in your Notify contacts. (optional)
+     * @param string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional)
+     * @param string $contact_address Contact Physical Address - This will be used while saving the phone number in your Notify contacts. (optional)
      * @throws \NotifyLk\ApiException on non-2xx response
      * @return void
      */
-    public function sendSMS($userId, $apiKey, $message, $to, $senderId)
+    public function sendSMS($userId, $apiKey, $message, $to, $senderId, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null)
     {
-        list($response) = $this->sendSMSWithHttpInfo($userId, $apiKey, $message, $to, $senderId);
+        list($response) = $this->sendSMSWithHttpInfo($userId, $apiKey, $message, $to, $senderId, $contact_fname, $contact_lname, $contact_email, $contact_address);
         return $response;
     }
 
@@ -130,10 +134,14 @@ class SmsApi
      * @param string $message Text of the message. 320 chars max. (required)
      * @param string $to Number to send the SMS. Better to use 9471XXXXXXX format. (required)
      * @param string $senderId This is the from name recipient will see as the sender of the SMS. Use \&quot;NotifyDemo\&quot; if you have not ordered your own sender ID yet. (required)
+     * @param string $contact_fname Contact First Name - This will be used while saving the phone number in your Notify contacts. (optional)
+     * @param string $contact_lname Contact Last Name - This will be used while saving the phone number in your Notify contacts. (optional)
+     * @param string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional)
+     * @param string $contact_address Contact Physical Address - This will be used while saving the phone number in your Notify contacts. (optional)
      * @throws \NotifyLk\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function sendSMSWithHttpInfo($userId, $apiKey, $message, $to, $senderId)
+    public function sendSMSWithHttpInfo($userId, $apiKey, $message, $to, $senderId, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null)
     {
         // verify the required parameter 'userId' is set
         if ($userId === null) {
@@ -189,6 +197,22 @@ class SmsApi
         // form params
         if ($senderId !== null) {
             $formParams['sender_id'] = $this->apiClient->getSerializer()->toFormValue($senderId);
+        }
+        // form params
+        if ($contact_fname !== null) {
+            $formParams['contact_fname'] = $this->apiClient->getSerializer()->toFormValue($contact_fname);
+        }
+        // form params
+        if ($contact_lname !== null) {
+            $formParams['contact_lname'] = $this->apiClient->getSerializer()->toFormValue($contact_lname);
+        }
+        // form params
+        if ($contact_email !== null) {
+            $formParams['contact_email'] = $this->apiClient->getSerializer()->toFormValue($contact_email);
+        }
+        // form params
+        if ($contact_address !== null) {
+            $formParams['contact_address'] = $this->apiClient->getSerializer()->toFormValue($contact_address);
         }
         
         // for model (json/xml)
