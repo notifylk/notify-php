@@ -21,11 +21,11 @@ To install the bindings via [Composer](http://getcomposer.org/), add the followi
   "repositories": [
     {
       "type": "git",
-      "url": "https://github.com/notify-php/notify-php.git"
+      "url": "https://github.com/notifylk/notify-php.git"
     }
   ],
   "require": {
-    "notify-php/notify-php": "*@dev"
+    "notifylk/notify-php": "*@dev"
   }
 }
 ```
