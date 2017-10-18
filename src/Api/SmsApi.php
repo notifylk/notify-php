@@ -106,11 +106,11 @@ class SmsApi
      *
      * Sending SMS to a number from specified sender ID
      *
-     * @param string $userId API User ID - Can be found in your settings page. (required)
-     * @param string $apiKey API Secret - Can be found in your settings page. (required)
+     * @param string $user_id API User ID - Can be found in your settings page. (required)
+     * @param string $api_key API Key - Can be found in your settings page. (required)
      * @param string $message Text of the message. 320 chars max. (required)
      * @param string $to Number to send the SMS. Better to use 9471XXXXXXX format. (required)
-     * @param string $senderId This is the from name recipient will see as the sender of the SMS. Use \&quot;NotifyDemo\&quot; if you have not ordered your own sender ID yet. (required)
+     * @param string $sender_id This is the from name recipient will see as the sender of the SMS. Use \\\&quot;NotifyDemo\\\&quot; if you have not ordered your own sender ID yet. (required)
      * @param string $contact_fname Contact First Name - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param string $contact_lname Contact Last Name - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional)
@@ -118,9 +118,9 @@ class SmsApi
      * @throws \NotifyLk\ApiException on non-2xx response
      * @return void
      */
-    public function sendSMS($userId, $apiKey, $message, $to, $senderId, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null)
+    public function sendSMS($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null)
     {
-        list($response) = $this->sendSMSWithHttpInfo($userId, $apiKey, $message, $to, $senderId, $contact_fname, $contact_lname, $contact_email, $contact_address);
+        list($response) = $this->sendSMSWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname, $contact_lname, $contact_email, $contact_address);
         return $response;
     }
 
@@ -129,11 +129,11 @@ class SmsApi
      *
      * Sending SMS to a number from specified sender ID
      *
-     * @param string $userId API User ID - Can be found in your settings page. (required)
-     * @param string $apiKey API Secret - Can be found in your settings page. (required)
+     * @param string $user_id API User ID - Can be found in your settings page. (required)
+     * @param string $api_key API Key - Can be found in your settings page. (required)
      * @param string $message Text of the message. 320 chars max. (required)
      * @param string $to Number to send the SMS. Better to use 9471XXXXXXX format. (required)
-     * @param string $senderId This is the from name recipient will see as the sender of the SMS. Use \&quot;NotifyDemo\&quot; if you have not ordered your own sender ID yet. (required)
+     * @param string $sender_id This is the from name recipient will see as the sender of the SMS. Use \\\&quot;NotifyDemo\\\&quot; if you have not ordered your own sender ID yet. (required)
      * @param string $contact_fname Contact First Name - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param string $contact_lname Contact Last Name - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional)
@@ -141,15 +141,15 @@ class SmsApi
      * @throws \NotifyLk\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function sendSMSWithHttpInfo($userId, $apiKey, $message, $to, $senderId, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null)
+    public function sendSMSWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null)
     {
-        // verify the required parameter 'userId' is set
-        if ($userId === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $userId when calling sendSMS');
+        // verify the required parameter 'user_id' is set
+        if ($user_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $user_id when calling sendSMS');
         }
-        // verify the required parameter 'apiKey' is set
-        if ($apiKey === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $apiKey when calling sendSMS');
+        // verify the required parameter 'api_key' is set
+        if ($api_key === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $api_key when calling sendSMS');
         }
         // verify the required parameter 'message' is set
         if ($message === null) {
@@ -159,9 +159,9 @@ class SmsApi
         if ($to === null) {
             throw new \InvalidArgumentException('Missing the required parameter $to when calling sendSMS');
         }
-        // verify the required parameter 'senderId' is set
-        if ($senderId === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $senderId when calling sendSMS');
+        // verify the required parameter 'sender_id' is set
+        if ($sender_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $sender_id when calling sendSMS');
         }
         // parse inputs
         $resourcePath = "/send";
@@ -179,12 +179,12 @@ class SmsApi
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
         // form params
-        if ($userId !== null) {
-            $formParams['user_id'] = $this->apiClient->getSerializer()->toFormValue($userId);
+        if ($user_id !== null) {
+            $formParams['user_id'] = $this->apiClient->getSerializer()->toFormValue($user_id);
         }
         // form params
-        if ($apiKey !== null) {
-            $formParams['api_key'] = $this->apiClient->getSerializer()->toFormValue($apiKey);
+        if ($api_key !== null) {
+            $formParams['api_key'] = $this->apiClient->getSerializer()->toFormValue($api_key);
         }
         // form params
         if ($message !== null) {
@@ -195,8 +195,8 @@ class SmsApi
             $formParams['to'] = $this->apiClient->getSerializer()->toFormValue($to);
         }
         // form params
-        if ($senderId !== null) {
-            $formParams['sender_id'] = $this->apiClient->getSerializer()->toFormValue($senderId);
+        if ($sender_id !== null) {
+            $formParams['sender_id'] = $this->apiClient->getSerializer()->toFormValue($sender_id);
         }
         // form params
         if ($contact_fname !== null) {
