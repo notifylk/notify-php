@@ -67,9 +67,10 @@ $contact_fname = "contact_fname_example"; // string | Contact First Name - This 
 $contact_lname = "contact_lname_example"; // string | Contact Last Name - This will be used while saving the phone number in your Notify contacts.
 $contact_email = "contact_email_example"; // string | Contact Email Address - This will be used while saving the phone number in your Notify contacts.
 $contact_address = "contact_address_example"; // string | Contact Physical Address - This will be used while saving the phone number in your Notify contacts.
+$contact_group = 56; // int | A group ID to associate the saving contact with
 
 try {
-    $api_instance->sendSMS($user_id, $api_key, $message, $to, $sender_id, $contact_fname, $contact_lname, $contact_email, $contact_address);
+    $api_instance->sendSMS($user_id, $api_key, $message, $to, $sender_id, $contact_fname, $contact_lname, $contact_email, $contact_address, $contact_group);
 } catch (Exception $e) {
     echo 'Exception when calling SmsApi->sendSMS: ', $e->getMessage(), PHP_EOL;
 }

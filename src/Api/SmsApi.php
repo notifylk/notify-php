@@ -115,12 +115,13 @@ class SmsApi
      * @param string $contact_lname Contact Last Name - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param string $contact_address Contact Physical Address - This will be used while saving the phone number in your Notify contacts. (optional)
+     * @param int $contact_group A group ID to associate the saving contact with (optional)
      * @throws \NotifyLk\ApiException on non-2xx response
      * @return void
      */
-    public function sendSMS($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null)
+    public function sendSMS($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null, $contact_group = null)
     {
-        list($response) = $this->sendSMSWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname, $contact_lname, $contact_email, $contact_address);
+        list($response) = $this->sendSMSWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname, $contact_lname, $contact_email, $contact_address, $contact_group);
         return $response;
     }
 
@@ -138,10 +139,11 @@ class SmsApi
      * @param string $contact_lname Contact Last Name - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param string $contact_address Contact Physical Address - This will be used while saving the phone number in your Notify contacts. (optional)
+     * @param int $contact_group A group ID to associate the saving contact with (optional)
      * @throws \NotifyLk\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function sendSMSWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null)
+    public function sendSMSWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null, $contact_group = null)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -213,6 +215,10 @@ class SmsApi
         // form params
         if ($contact_address !== null) {
             $formParams['contact_address'] = $this->apiClient->getSerializer()->toFormValue($contact_address);
+        }
+        // form params
+        if ($contact_group !== null) {
+            $formParams['contact_group'] = $this->apiClient->getSerializer()->toFormValue($contact_group);
         }
         
         // for model (json/xml)
