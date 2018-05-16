@@ -87,6 +87,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [Error](docs/Model/Error.md)
  - [Status](docs/Model/Status.md)
  - [StatusData](docs/Model/StatusData.md)
 
