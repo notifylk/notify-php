@@ -82,7 +82,7 @@ $to = "to_example"; // string | Number to send the SMS. Better to use 9471XXXXXX
 $sender_id = "sender_id_example"; // string | This is the from name recipient will see as the sender of the SMS. Use \\\"NotifyDemo\\\" if you have not ordered your own sender ID yet.
 $contact_fname = "contact_fname_example"; // string | Contact First Name - This will be used while saving the phone number in your Notify contacts.
 $contact_lname = "contact_lname_example"; // string | Contact Last Name - This will be used while saving the phone number in your Notify contacts.
-$contact_email = "contact_email_example"; // string | Contact Email Address - This will be used while saving the phone number in your Notify contacts.
+$contact_email = "default@example.com"; // string | Contact Email Address - This will be used while saving the phone number in your Notify contacts.
 $contact_address = "contact_address_example"; // string | Contact Physical Address - This will be used while saving the phone number in your Notify contacts.
 $contact_group = 0; // int | A group ID to associate the saving contact with
 
@@ -105,7 +105,7 @@ Name | Type | Description  | Notes
  **sender_id** | **string**| This is the from name recipient will see as the sender of the SMS. Use \\\&quot;NotifyDemo\\\&quot; if you have not ordered your own sender ID yet. |
  **contact_fname** | **string**| Contact First Name - This will be used while saving the phone number in your Notify contacts. | [optional]
  **contact_lname** | **string**| Contact Last Name - This will be used while saving the phone number in your Notify contacts. | [optional]
- **contact_email** | **string**| Contact Email Address - This will be used while saving the phone number in your Notify contacts. | [optional]
+ **contact_email** | **string**| Contact Email Address - This will be used while saving the phone number in your Notify contacts. | [optional] [default to default@example.com]
  **contact_address** | **string**| Contact Physical Address - This will be used while saving the phone number in your Notify contacts. | [optional]
  **contact_group** | **int**| A group ID to associate the saving contact with | [optional] [default to 0]
 
