@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **getStatus**
-> getStatus($user_id, $api_key)
+> \NotifyLk\Model\Status getStatus($user_id, $api_key)
 
 Retrieve the account status
 
@@ -29,7 +29,8 @@ $user_id = "user_id_example"; // string | API User ID - Can be found in your set
 $api_key = "api_key_example"; // string | API Key - Can be found in your settings page.
 
 try {
-    $apiInstance->getStatus($user_id, $api_key);
+    $result = $apiInstance->getStatus($user_id, $api_key);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling SmsApi->getStatus: ', $e->getMessage(), PHP_EOL;
 }
@@ -45,7 +46,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**\NotifyLk\Model\Status**](../Model/Status.md)
 
 ### Authorization
 

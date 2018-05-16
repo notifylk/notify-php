@@ -66,7 +66,8 @@ $user_id = "user_id_example"; // string | API User ID - Can be found in your set
 $api_key = "api_key_example"; // string | API Key - Can be found in your settings page.
 
 try {
-    $apiInstance->getStatus($user_id, $api_key);
+    $result = $apiInstance->getStatus($user_id, $api_key);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling SmsApi->getStatus: ', $e->getMessage(), PHP_EOL;
 }
@@ -86,6 +87,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [Status](docs/Model/Status.md)
+ - [StatusData](docs/Model/StatusData.md)
 
 
 ## Documentation For Authorization

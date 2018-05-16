@@ -93,11 +93,12 @@ class SmsApi
      *
      * @throws \NotifyLk\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \NotifyLk\Model\Status
      */
     public function getStatus($user_id, $api_key)
     {
-        $this->getStatusWithHttpInfo($user_id, $api_key);
+        list($response) = $this->getStatusWithHttpInfo($user_id, $api_key);
+        return $response;
     }
 
     /**
@@ -110,11 +111,11 @@ class SmsApi
      *
      * @throws \NotifyLk\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \NotifyLk\Model\Status, HTTP status code, HTTP response headers (array of strings)
      */
     public function getStatusWithHttpInfo($user_id, $api_key)
     {
-        $returnType = '';
+        $returnType = '\NotifyLk\Model\Status';
         $request = $this->getStatusRequest($user_id, $api_key);
 
         try {
@@ -145,10 +146,32 @@ class SmsApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\NotifyLk\Model\Status',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
             }
             throw $e;
         }
@@ -188,14 +211,28 @@ class SmsApi
      */
     public function getStatusAsyncWithHttpInfo($user_id, $api_key)
     {
-        $returnType = '';
+        $returnType = '\NotifyLk\Model\Status';
         $request = $this->getStatusRequest($user_id, $api_key);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -331,7 +368,7 @@ class SmsApi
      * @param  string $sender_id This is the from name recipient will see as the sender of the SMS. Use \\\&quot;NotifyDemo\\\&quot; if you have not ordered your own sender ID yet. (required)
      * @param  string $contact_fname Contact First Name - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param  string $contact_lname Contact Last Name - This will be used while saving the phone number in your Notify contacts. (optional)
-     * @param  string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional)
+     * @param  string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional, default to default@example.com)
      * @param  string $contact_address Contact Physical Address - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param  int $contact_group A group ID to associate the saving contact with (optional, default to 0)
      *
@@ -339,7 +376,7 @@ class SmsApi
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function sendSMS($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null, $contact_group = '0')
+    public function sendSMS($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = 'default@example.com', $contact_address = null, $contact_group = '0')
     {
         $this->sendSMSWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname, $contact_lname, $contact_email, $contact_address, $contact_group);
     }
@@ -356,7 +393,7 @@ class SmsApi
      * @param  string $sender_id This is the from name recipient will see as the sender of the SMS. Use \\\&quot;NotifyDemo\\\&quot; if you have not ordered your own sender ID yet. (required)
      * @param  string $contact_fname Contact First Name - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param  string $contact_lname Contact Last Name - This will be used while saving the phone number in your Notify contacts. (optional)
-     * @param  string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional)
+     * @param  string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional, default to default@example.com)
      * @param  string $contact_address Contact Physical Address - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param  int $contact_group A group ID to associate the saving contact with (optional, default to 0)
      *
@@ -364,7 +401,7 @@ class SmsApi
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function sendSMSWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null, $contact_group = '0')
+    public function sendSMSWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = 'default@example.com', $contact_address = null, $contact_group = '0')
     {
         $returnType = '';
         $request = $this->sendSMSRequest($user_id, $api_key, $message, $to, $sender_id, $contact_fname, $contact_lname, $contact_email, $contact_address, $contact_group);
@@ -418,14 +455,14 @@ class SmsApi
      * @param  string $sender_id This is the from name recipient will see as the sender of the SMS. Use \\\&quot;NotifyDemo\\\&quot; if you have not ordered your own sender ID yet. (required)
      * @param  string $contact_fname Contact First Name - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param  string $contact_lname Contact Last Name - This will be used while saving the phone number in your Notify contacts. (optional)
-     * @param  string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional)
+     * @param  string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional, default to default@example.com)
      * @param  string $contact_address Contact Physical Address - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param  int $contact_group A group ID to associate the saving contact with (optional, default to 0)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function sendSMSAsync($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null, $contact_group = '0')
+    public function sendSMSAsync($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = 'default@example.com', $contact_address = null, $contact_group = '0')
     {
         return $this->sendSMSAsyncWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname, $contact_lname, $contact_email, $contact_address, $contact_group)
             ->then(
@@ -447,14 +484,14 @@ class SmsApi
      * @param  string $sender_id This is the from name recipient will see as the sender of the SMS. Use \\\&quot;NotifyDemo\\\&quot; if you have not ordered your own sender ID yet. (required)
      * @param  string $contact_fname Contact First Name - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param  string $contact_lname Contact Last Name - This will be used while saving the phone number in your Notify contacts. (optional)
-     * @param  string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional)
+     * @param  string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional, default to default@example.com)
      * @param  string $contact_address Contact Physical Address - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param  int $contact_group A group ID to associate the saving contact with (optional, default to 0)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function sendSMSAsyncWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null, $contact_group = '0')
+    public function sendSMSAsyncWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = 'default@example.com', $contact_address = null, $contact_group = '0')
     {
         $returnType = '';
         $request = $this->sendSMSRequest($user_id, $api_key, $message, $to, $sender_id, $contact_fname, $contact_lname, $contact_email, $contact_address, $contact_group);
@@ -492,14 +529,14 @@ class SmsApi
      * @param  string $sender_id This is the from name recipient will see as the sender of the SMS. Use \\\&quot;NotifyDemo\\\&quot; if you have not ordered your own sender ID yet. (required)
      * @param  string $contact_fname Contact First Name - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param  string $contact_lname Contact Last Name - This will be used while saving the phone number in your Notify contacts. (optional)
-     * @param  string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional)
+     * @param  string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional, default to default@example.com)
      * @param  string $contact_address Contact Physical Address - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param  int $contact_group A group ID to associate the saving contact with (optional, default to 0)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function sendSMSRequest($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null, $contact_group = '0')
+    protected function sendSMSRequest($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = 'default@example.com', $contact_address = null, $contact_group = '0')
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
