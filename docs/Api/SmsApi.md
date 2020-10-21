@@ -27,9 +27,9 @@ $to = "to_example"; // string | Number to send the SMS. Better to use 9471XXXXXX
 $sender_id = "sender_id_example"; // string | This is the from name recipient will see as the sender of the SMS. Use \\\"NotifyDemo\\\" if you have not ordered your own sender ID yet.
 $contact_fname = "contact_fname_example"; // string | Contact First Name - This will be used while saving the phone number in your Notify contacts.
 $contact_lname = "contact_lname_example"; // string | Contact Last Name - This will be used while saving the phone number in your Notify contacts.
-$contact_email = "contact_email_example"; // string | Contact Email Address - This will be used while saving the phone number in your Notify contacts.
+$contact_email = "example@domain.com"; // string | Contact Email Address - This will be used while saving the phone number in your Notify contacts.
 $contact_address = "contact_address_example"; // string | Contact Physical Address - This will be used while saving the phone number in your Notify contacts.
-$contact_group = 56; // int | A group ID to associate the saving contact with
+$contact_group = 0; // int | A group ID to associate the saving contact with
 
 try {
     $api_instance->sendSMS($user_id, $api_key, $message, $to, $sender_id, $contact_fname, $contact_lname, $contact_email, $contact_address, $contact_group);
