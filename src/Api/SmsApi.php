@@ -116,12 +116,13 @@ class SmsApi
      * @param string $contact_email Contact Email Address - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param string $contact_address Contact Physical Address - This will be used while saving the phone number in your Notify contacts. (optional)
      * @param int $contact_group A group ID to associate the saving contact with (optional)
+     * @param int $type Message type. Provide as unicode to support unicode (optional)
      * @throws \NotifyLk\ApiException on non-2xx response
      * @return void
      */
-    public function sendSMS($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null, $contact_group = null)
+    public function sendSMS($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null, $contact_group = null, $type = null)
     {
-        list($response) = $this->sendSMSWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname, $contact_lname, $contact_email, $contact_address, $contact_group);
+        list($response) = $this->sendSMSWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname, $contact_lname, $contact_email, $contact_address, $contact_group, $type);
         return $response;
     }
 
@@ -143,7 +144,7 @@ class SmsApi
      * @throws \NotifyLk\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function sendSMSWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null, $contact_group = null)
+    public function sendSMSWithHttpInfo($user_id, $api_key, $message, $to, $sender_id, $contact_fname = null, $contact_lname = null, $contact_email = null, $contact_address = null, $contact_group = null, $type = null)
     {
         // verify the required parameter 'user_id' is set
         if ($user_id === null) {
@@ -219,6 +220,10 @@ class SmsApi
         // form params
         if ($contact_group !== null) {
             $formParams['contact_group'] = $this->apiClient->getSerializer()->toFormValue($contact_group);
+        }
+        // form params
+        if ($type !== null) {
+            $formParams['type'] = $this->apiClient->getSerializer()->toFormValue($type);
         }
         
         // for model (json/xml)
